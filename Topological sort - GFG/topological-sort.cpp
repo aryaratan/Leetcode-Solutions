@@ -26,16 +26,15 @@ class Solution
 	    vector<int> ans;
 	    queue<int> q;
 	    vector<int> inDeg(V,0);
-	    unordered_map<int, int> mp;
 	    for(int i=0;i<V;i++){
 	        for(int j=0;j<adj[i].size();j++){
-	            mp[adj[i][j]]++;
+	            inDeg[adj[i][j]]++;
+                
 	        }
 	    }
 	    
 	   for(int i=0;i<V;i++){
-	       inDeg[i] = mp[i];
-	       if(mp[i] == 0){
+	       if(inDeg[i] == 0){
 	           q.push(i);
 	       }
 	   }

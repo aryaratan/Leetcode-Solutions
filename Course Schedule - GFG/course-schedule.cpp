@@ -74,17 +74,10 @@ class Solution
 	    
 	    bool vis[N]={false} , path[N]={false};
 	    
-	    for(int i=0;i<N;i++){
-	        if(!vis[i]){
-	            if(!dfs(i,adj,vis,path)){
-	                vector<int> temp;
-	                return temp;
-	            }
-	        }
-	    }
+	    vector<int> ans = bsf(N,adj);
 	    
-	    
-	    return bsf(N,adj);
+	    vector<int> temp;
+	    return ans.size() == N ? ans : temp;
 	    
     }
 };

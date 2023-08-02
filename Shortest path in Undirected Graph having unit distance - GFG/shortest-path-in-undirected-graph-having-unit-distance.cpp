@@ -45,6 +45,7 @@ class Solution {
         for(int i=0;i<N;i++){
             if(!vis[i]){
                 minDis(src, adj, N,vis,dis);
+                break;
             }
         }
         for(int i=0;i<N;i++){

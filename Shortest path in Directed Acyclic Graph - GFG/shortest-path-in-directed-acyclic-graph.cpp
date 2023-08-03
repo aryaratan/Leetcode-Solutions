@@ -23,6 +23,12 @@ class Solution {
      vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
         // code here
         
+        // given is a DAG with weighted edges
+        // find topoSort order(reverse => stack)
+        // declare a distance vector and made dis[src] = 0
+        // one by one pop elements from stack and check for its adjacent nodes
+        // if( dis[adjancent] > dis[st.top()] + weight[st.ttop() => adjances] ) then update the distance
+        // if not reached then make distance -1
         
         vector<vector<pair<int, int>>>  adj(N);
         

@@ -9,25 +9,31 @@ using namespace std;
 class Solution {
   public:
   
-  
-    void dfs(int c,vector<vector<int>> &adj, vector<bool> &visited ){
-        
-        visited[c] = true;
-        for(int i=0;i<adj.size();i++){
-            if(adj[c][i] == 1 && !visited[i]){
-                dfs(i, adj,visited);
+    void bsf(int c, vector<vector<int>> &adj, vector<bool> &vis){
+        queue<int> q;
+        q.push(c);
+        int V = adj.size();
+        vis[c] = true;
+        while(!q.empty()){
+            int node = q.front();
+            for(int i=0;i<V;i++){
+                if(adj[node][i] == 1 && !vis[i] && i != node){
+                    q.push(i);
+                    vis[i] = true;
+                }
             }
+            q.pop();
         }
+        return ;
     }
   
     int numProvinces(vector<vector<int>> adj, int V) {
         // code here
-        
         vector<bool> vis(V,false);
-        int count =0;
+        int count = 0;
         for(int i=0;i<V;i++){
             if(!vis[i]){
-                dfs(i,adj, vis);
+                bsf(i, adj, vis);
                 count++;
             }
         }

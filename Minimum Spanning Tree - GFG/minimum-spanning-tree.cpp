@@ -5,12 +5,71 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
+    
+    vector<int> pars;
+    
+    int ultPar(int u ){
+        if(u == pars[u]){
+            return u;
+        }
+        
+        return pars[u] = ultPar(pars[u]);
+    }
 	public:
+	
+    static bool comp(vector<int> &a , vector<int> &b){
+        return a[2] < b[2];
+    }	
+	
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        // code here
         
+        // disjoint set
+        
+        // sort the edges on the basis of weights
+        
+       vector<vector<int>> edges;
+       for(int i=0;i<V;i++){
+           for(auto x:adj[i]){
+               edges.push_back({i,x[0],x[1]});
+           }
+       }
+        
+        sort(edges.begin(), edges.end(), comp);
+        
+        pars.resize(V);
+        for(int i=0;i<V;i++){
+            pars[i] = i;
+        }
+        int sum =0;
+        
+        for(int i=0;i<edges.size();i++){
+            int up = ultPar(edges[i][0]);
+            int vp = ultPar(edges[i][1]);
+            
+            if(up == vp){
+                continue;
+            }
+            
+            pars[vp] = up;
+            sum += edges[i][2];
+        }
+        return sum;
+        
+        
+        
+        
+        
+        
+        
+        
+
+        // PRIM'S algorithm        
+        // greedy approach is used to make graph connected with smallest sum
+        // TC = O(ElogE)
+        // SC = O(E)
+        /*
         int sum = 0;
         priority_queue<vector<int> ,vector<vector<int>>, greater<vector<int>> > pq;
         
@@ -35,6 +94,7 @@ class Solution
             }
         }
         return sum;
+        */
     }
 };
 

@@ -45,47 +45,40 @@ struct Node
 */
 class Solution
 {
+    
+    private:
+    Node* reverse(Node* head){
+        Node* prev = NULL, *curr = head;
+        while(curr != NULL){
+            Node* temp = curr-> next;
+            curr -> next = prev;
+            prev = curr ;
+            curr = temp;
+        }
+        return prev;
+    }
     public:
+    
+    
     Node *compute(Node *head)
     {
         // your code goes here
-        vector<int> vp;
-        Node* temp = head;
-        while(temp != NULL){
-            vp.push_back(temp -> data);
-            temp = temp -> next;
-        }
-        int n = vp.size();
-        vector<int> right(n, -1);
-        stack<int> st;
-        st.push(n - 1);
-        for(int i=n - 2 ; i>= 0 ; i--){
-            while(!st.empty() && vp[i] >= vp[st.top()]){
-                st.pop();
+        Node* rv = reverse(head);
+        // cout << head -> data << " " << rv -> data << endl;
+        stack<Node*> st;
+        st.push(rv);
+        Node* nh = rv;
+        // cout << nh -> data << endl;
+        rv = rv -> next;
+        while(rv != NULL){
+            if( rv -> data  >= st.top() -> data){
+                st.top() -> next = rv;
+                st.push(rv);
             }
-            if(!st.empty()){
-                right[i] = st.top();
-            }
-            st.push(i);
+            rv = rv -> next;
         }
-        
-        Node* newHead = NULL , *tail = NULL;
-        for(int i=0;i<n;i++){
-            if(right[i] == -1){
-                if(newHead == NULL){
-                    newHead = tail = new Node(vp[i]);
-                    
-                }
-                
-                else{
-                    tail -> next = new Node(vp[i]);
-                    tail = tail -> next;
-                }
-            }else{
-                
-            }
-        }
-        return newHead;
+        st.top() -> next = NULL;
+        return reverse(nh);
     }
     
 };

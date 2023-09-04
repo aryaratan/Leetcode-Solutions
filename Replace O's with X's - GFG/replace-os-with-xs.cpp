@@ -10,49 +10,64 @@ using namespace std;
 class Solution{
 public:
 
-    void dfs(int i, int j ,  vector<vector<char>> &mat,  vector<vector<bool>> &vis){
-        
-        if(i<0 || i >= mat.size() || j<0 || j>=mat[0].size() || mat[i][j] == 'X' || vis[i][j]){
-            return;
+    void bfs(vector<vector<char>> &mat, int n, int m , int i , int j){
+        queue<pair<int,int>> q;
+        q.push({i,j});
+        int rows[4] = {0,1,-1,0};
+        int cols[4] = {1,0,0,-1};
+        mat[i][j] = 'Y';
+        while(!q.empty()){
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            for(int i=0;i<4;i++){
+                int a = x+rows[i];
+                int b = y+cols[i];
+                
+                if(a>=0 && b>=0 && a<n && b<m && mat[a][b] == 'O'){
+                    mat[a][b] = 'Y';
+                    q.push({a,b});
+                }
+            }
         }
-        
-        
-        vis[i][j] = true;
-        
-        dfs(i+1, j , mat, vis);
-        dfs(i-1, j , mat, vis);
-        dfs(i, j+1 , mat, vis);
-        dfs(i, j-1 , mat, vis);
+        return ;
     }
 
     vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
     {
         // code here
-        
-        //bsf traverse of matrix and mark only those cells who are connected with boundary 0 and are 0
-        vector<vector<bool>> vis(n, vector<bool>(m , false));
-        for(int i=0;i<n;i++){
-            if(mat[i][0] == 'O' && !vis[i][0]){
-                dfs(i, 0, mat, vis);
+        // boundary se start kro then sabhi O ko kisi new char m change  krr do
+        // for all columns 
+        for(int i=0;i<m;i++){
+            // first row
+            if(mat[0][i] == 'O'){
+                bfs(mat, n, m , 0,i);
             }
-            if(mat[i][m-1] == 'O' && !vis[i][m-1]){
-                dfs(i,m-1,mat, vis);
+            // last row
+            if(mat[n-1][i] == 'O'){
+                bfs(mat, n, m , n-1,i);
             }
         }
-        for(int i=0;i<m;i++){
-            if(mat[0][i] == 'O' && !vis[0][i]){
-                dfs(0, i, mat, vis);
+        // for all rows 
+        for(int i=0;i<n;i++){
+            // first col
+            if(mat[i][0] == 'O'){
+                bfs(mat, n, m , i,0);
             }
-            if(mat[n-1][i] == 'O' && !vis[n-1][i]){
-                dfs(n-1,i,mat, vis);
+            // last row
+            if(mat[i][m-1] == 'O'){
+                bfs(mat, n, m , i,m-1);
             }
         }
         
         
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(!vis[i][j]){
+                if(mat[i][j] == 'O'){
                     mat[i][j] = 'X';
+                }
+                if(mat[i][j] == 'Y'){
+                    mat[i][j] = 'O';
                 }
             }
         }

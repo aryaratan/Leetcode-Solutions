@@ -97,9 +97,12 @@ struct Node {
 class Solution
 {
     public:
+    vector<int> in;
     int count(Node* root){
         if(!root) return 0;
+        
         int lft = count(root -> left);
+        in.push_back(root -> data);
         int rght = count(root -> right);
         
         return lft + rght +1;
@@ -107,31 +110,8 @@ class Solution
     int kthLargest(Node *root, int K)
     {
         //Your code here
-        int n = count(root );
-        K = n - K;
-        Node* rt = root;
-        stack<Node*> st;
-        int i = 0;
-        while( i <= K){
-            while(rt != NULL){
-                st.push(rt);
-                // cout << rt -> data << endl;
-                rt = rt -> left;
-            }
-            rt = st.top();
-            
-            // cout << i << " " << rt -> data << endl;
-            if(i == K)
-            break;
-            st.pop();
-            i++;
-            rt = rt -> right;
-            
-        }
-        if(st.empty()){
-            return -1;
-        }
-        return st.top() -> data;
+        int n = count(root);
+       return in[n-K];
     }
 };
 

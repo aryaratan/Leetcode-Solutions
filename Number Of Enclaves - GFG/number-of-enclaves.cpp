@@ -10,8 +10,7 @@ using namespace std;
 
 class Solution {
   public:
-  
-    void dfs(int i, int j, vector<vector<int>> &grid){
+     void dfs(int i, int j, vector<vector<int>> &grid){
         if(i<0 || i>=grid.size() || j< 0 || j>= grid[0].size() || grid[i][j] == 0){
             return;
         }
